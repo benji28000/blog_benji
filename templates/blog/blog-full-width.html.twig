@@ -1,0 +1,110 @@
+{% extends "./blog/base_blog.html.twig" %}
+
+{% block main %}
+<section class="page-title bg-2">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block">
+          <h1>Blog Full Width</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, ex!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="page-wrapper">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-10">
+
+</div>
+          {% for article in articles %}
+
+
+<div class="post">
+  <div class="post-media post-thumb">
+    <a href="blog-single.html.twig">
+      <img src="{{ article.getImageUrl() }}" alt="pomme" style="width: 400px;">
+    </a>
+  </div>
+  <h3 class="post-title"><a href="{{ path("blog-single") }}">{{ article.titre }}</a></h3>
+  <div class="post-meta">
+    <ul>
+      <li>
+        <i class="ion-calendar"></i> {{ article.getDate().format("d, M Y")}}
+      </li>
+      <li>
+        <i class="ion-android-people"></i> POSTED BY {{ article.getUtilisateur()|raw }}
+      </li>
+      <li>
+        <i class="ion-pricetags"></i>{{ article.getMaCategorie() }}
+      </li>
+
+    </ul>
+  </div>
+  <div class="post-content">
+    <p>{{ article.contenu|raw }}</p>
+    <h4>
+      AVIS
+
+    </h4>
+    {% for avis in article.getLesAvis() %}
+
+
+      <br>
+      <p> Avis de l'utilisateur : {{ avis.getUtilisateur() }}  <br>
+
+        {{ avis.getContenu() }}
+
+<h6 style="color: #fd7e14">        {% for i in 1..5 %}
+          {% if i <= avis.getNote() %}
+            ★
+          {% else %}
+            ☆
+          {% endif %}
+        {% endfor %}
+    </h6>
+
+
+      </p>
+    {% endfor %}
+
+
+    <a href="{{ path("blog-single") }}" class="btn btn-main">Continue Reading</a>
+    {% if is_granted("EDIT",article) %}
+    <a href="/article/{{ article.getId() }}/edit"  class="btn btn-main">EDIT ARTICLE</a>
+    {% endif %}
+    {% if is_granted("DELETE",article) %}
+    <form method="post" action="{{ path('app_article_delete', {'id': article.id}) }}">
+      <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
+      <button class="btn">Delete</button>
+    </form>
+    {% endif %}
+
+
+
+
+  </div>
+  {% endfor %}
+</div>
+          <a href="{{ path('app_article_new') }}">Create new article</a>
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination post-pagination">
+    <li class="page-item"><a class="page-link" href="{{ path("blog-grid") }}">Prev</a></li>
+    <li class="page-item"><a class="page-link" href="{{ path("blog-grid") }}">1</a></li>
+    <li class="page-item"><a class="page-link" href="{{ path("blog-grid") }}">2</a></li>
+    <li class="page-item"><a class="page-link" href="{{ path("blog-grid") }}">3</a></li>
+    <li class="page-item"><a class="page-link" href="{{ path("blog-grid") }}">Next</a></li>
+  </ul>
+</nav>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+

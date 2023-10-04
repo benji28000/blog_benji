@@ -1,0 +1,17 @@
+<li class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">categorie <span class="ion-ios-arrow-down"></span></a>
+        <ul class="dropdown-menu  overflow-auto" aria-labelledby="dropdown03" style="height: 200px">
+
+                {% for categorie in categories %}
+
+
+
+                <li><a class="dropdown-item " href="{{ path("blog-full-width",{"categorie": categorie.getSlug()}) }}"> {{ categorie.getlibelle() }}</a></li>
+
+                {% endfor %}
+
+
+
+        </ul>
+</li>
+

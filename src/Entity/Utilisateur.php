@@ -2,42 +2,69 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use App\Repository\UtilisateurRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+#[ApiResource (
+    normalizationContext: ['groups' => ['article','user']],
+    denormalizationContext: ['groups' => ['article:write']]
+)]
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["article","user","avis"])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $pseudo = null;
+    #[ORM\Column(length: 180, unique: true)]
+    #[Groups(["user"])]
+    private ?string $email = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $mdp = null;
+    #[ORM\Column]
+    #[Groups(["user"])]
+    private array $roles = [];
 
-    #[ORM\Column(length: 100)]
-    private ?string $mail = null;
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    #[Groups(["user"])]
+    private ?string $password = null;
+
+
+    #[ORM\Column]
+    #[Groups(["article","user","avis"])]
+    private ?string $nom = null;
 
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Article::class)]
+    #[MaxDepth(1)]
     private Collection $MesArticles;
 
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Avis::class)]
+    #[MaxDepth(1)]
     private Collection $MesAvis;
 
-    public function __construct()
+    public function getNom(): ?string
     {
-        $this->MesArticles = new ArrayCollection();
-        $this->MesAvis = new ArrayCollection();
+        return $this->nom;
     }
-    public function __ToString(): string
+
+    public function setNom(string $nom): static
     {
-        return $this->pseudo;
+        $this->nom = $nom;
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -45,99 +72,72 @@ class Utilisateur
         return $this->id;
     }
 
-    public function getPseudo(): ?string
+    public function getEmail(): ?string
     {
-        return $this->pseudo;
+        return $this->email;
     }
 
-    public function setPseudo(string $pseudo): static
+    public function setEmail(string $email): static
     {
-        $this->pseudo = $pseudo;
-
-        return $this;
-    }
-
-    public function getMdp(): ?string
-    {
-        return $this->mdp;
-    }
-
-    public function setMdp(string $mdp): static
-    {
-        $this->mdp = $mdp;
-
-        return $this;
-    }
-
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(string $mail): static
-    {
-        $this->mail = $mail;
+        $this->email = $email;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Article>
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
      */
-    public function getMesArticles(): Collection
+    public function getUserIdentifier(): string
     {
-        return $this->MesArticles;
+        return (string) $this->email;
     }
 
-    public function addMesArticle(Article $mesArticle): static
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        if (!$this->MesArticles->contains($mesArticle)) {
-            $this->MesArticles->add($mesArticle);
-            $mesArticle->setUtilisateur($this);
-        }
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
 
-        return $this;
+        return array_unique($roles);
     }
 
-    public function removeMesArticle(Article $mesArticle): static
+    public function setRoles(array $roles): static
     {
-        if ($this->MesArticles->removeElement($mesArticle)) {
-            // set the owning side to null (unless already changed)
-            if ($mesArticle->getUtilisateur() === $this) {
-                $mesArticle->setUtilisateur(null);
-            }
-        }
+        $this->roles = $roles;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Avis>
+     * @see PasswordAuthenticatedUserInterface
      */
-    public function getMesAvis(): Collection
+    public function getPassword(): string
     {
-        return $this->MesAvis;
+        return $this->password;
     }
 
-    public function addMesAvi(Avis $mesAvi): static
+    public function setPassword(string $password): static
     {
-        if (!$this->MesAvis->contains($mesAvi)) {
-            $this->MesAvis->add($mesAvi);
-            $mesAvi->setUtilisateur($this);
-        }
+        $this->password = $password;
 
         return $this;
     }
 
-    public function removeMesAvi(Avis $mesAvi): static
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
     {
-        if ($this->MesAvis->removeElement($mesAvi)) {
-            // set the owning side to null (unless already changed)
-            if ($mesAvi->getUtilisateur() === $this) {
-                $mesAvi->setUtilisateur(null);
-            }
-        }
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
 
-        return $this;
+    public function __toString(): string
+    {
+        return $this->getNom();
     }
 }

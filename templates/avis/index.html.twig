@@ -20,10 +20,17 @@
                 <td>{{ avi.id }}</td>
                 <td>{{ avi.contenu }}</td>
                 <td>{{ avi.note }}</td>
+
+                {% if is_granted("DELETE",avi) %}
                 <td>
-                    <a href="{{ path('app_avis_show', {'id': avi.id}) }}">show</a>
-                    <a href="{{ path('app_avis_edit', {'id': avi.id}) }}">edit</a>
+                    <a href="{{ path('app_avis_show', {'id': avi.id}) }}" class="btn btn-success">show</a>
+                    <a href="{{ path('app_avis_edit', {'id': avi.id}) }}" class="btn btn-secondary">edit</a>
+                    <form method="post" action="{{ path('app_avis_delete', {'id': avi.id}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avi.id) }}">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
                 </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>

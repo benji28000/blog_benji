@@ -2,25 +2,23 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Article;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\Avis;
 
-class BlogVoter extends Voter
+class AvisVoter extends Voter
 {
-    public const EDIT = 'EDIT';
-    public const VIEW = 'VIEW';
+    public const EDIT = 'POST_EDIT';
+    public const VIEW = 'POST_VIEW';
+    const DELETE = "DELETE";
 
-    public const DELETE = "DELETE";
-
-    protected function supports(string $attribute, mixed $subject  ): bool
+    protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
-            && $subject instanceof Article ;
+            && $subject instanceof \App\Entity\Avis;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -31,7 +29,6 @@ class BlogVoter extends Voter
             return false;
         }
 
-        // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::EDIT:
                 // logic to determine if the user can EDIT

@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Article;
 use App\Form\Article1Type;
 use App\Repository\ArticleRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\Slugger;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/article')]
 class ArticleController extends AbstractController
@@ -30,6 +34,12 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Générer le slug à partir du titre
+            $slugger = new Slugger();
+            $slug = $slugger->slugify($article->getTitre());
+            $article->setSlug($slug);
+
+            // Persister l'article avec le slug
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -50,6 +60,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits pour modifier cet article')]
     #[Route('/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {

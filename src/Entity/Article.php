@@ -2,42 +2,79 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Delete;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[Delete(security: "is_granted('ROLE_ADMIN')")]
+#[ApiResource (
+    normalizationContext: ['groups' => ['article']],
+    denormalizationContext: ['groups' => ['article:write']],
+
+)]
 class Article
 {
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["article", "categorie", "avis"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(["article","avis"])]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(["article"])]
     private ?string $contenu = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    #[Groups(["article"])]
+    private ?string $slug = null;
+
+
+
+
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(["article"])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'MesArticles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["article"])]
+
+    #[MaxDepth(1)]
+
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Avis::class)]
+
+    #[MaxDepth(1)]
+    #[Groups(["article"])]
     private Collection $LesAvis;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[MaxDepth(1)]
+    #[Groups(["article"])]
+
     private ?Categorie $MaCategorie = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(["article"])]
     private ?string $imageUrl = null;
+
+
 
 
 
@@ -53,6 +90,18 @@ class Article
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function getTitre(): ?string

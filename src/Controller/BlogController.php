@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Repository\ArticleRepository;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use phpDocumentor\Reflection\Types\Null_;
 use PhpParser\Builder\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,6 +42,20 @@ class BlogController extends AbstractController
         return $this->render('blog/blog-full-width.html.twig', [
             'articles' => $articleRepository->findAll(),
         ]);
+    }
+
+    #[Route('/blog_single/{slug}', name: 'blog_single', defaults: ['slug' => "aucun"])]
+    public function blog_full_width_articles(?string $slug,ArticleRepository $articleRepository, CategorieRepository $categorieRepository): Response
+    {
+        if ($slug) {
+
+            return $this->render('blog/blog-single.html.twig', [
+                'articles' => $articleRepository->findBy(['slug' => $slug]),
+            ]);
+        }
+        else{
+            return $this->render('blog/blog-single.html.twig');
+        }
     }
     #[Route('/blog-grid', name: 'blog-grid')]
     public function blog_grid(): Response

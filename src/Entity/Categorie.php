@@ -6,22 +6,33 @@ use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiResource;
+
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
+#[ApiResource (
+    normalizationContext: ['groups' => ['article','categorie']],
+    denormalizationContext: ['groups' => ['article:write']]
+)]
 class Categorie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["article", "categorie"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["categorie"])]
     private ?string $libelle = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["categorie"])]
     private ?string $slug = null;
 
     #[ORM\OneToMany(mappedBy: 'MaCategorie', targetEntity: Article::class)]
+    #[Groups(["categorie"])]
     private Collection $articles;
 
     public function __construct()

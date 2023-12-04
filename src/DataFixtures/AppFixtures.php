@@ -23,9 +23,13 @@ class AppFixtures extends Fixture
 
         for ($i = 0; $i < 5; $i++) {
             $utilisateur = new Utilisateur();
-            $utilisateur->setPseudo($faker->unique()->name());
-            $utilisateur->setMail($faker->email());
-            $utilisateur->setMdp($faker->password());
+
+            $utilisateur->setEmail($faker->email());
+
+            $texte = $utilisateur->getEmail();
+            $pieces = explode('@', $texte);
+            $utilisateur->setNom($pieces[0]);
+            $utilisateur->setPassword($faker->password());
             $manager->persist($utilisateur);
 
             $utilisateurs[] = $utilisateur;
@@ -46,6 +50,7 @@ class AppFixtures extends Fixture
                 $article->setDate($faker->dateTime());
                 $article->setUtilisateur($utilisateurs[rand(0, count($utilisateurs) - 1)]);
                 $article->setMaCategorie($categorie);
+                $article->setSlug((new Slugify())->slugify($article->getTitre()));
                 $article->setImageUrl($faker->randomElement(["https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQ6SROVWdB2sMs3Kt2UFbgIaGMWRo6L7-fdQAxZwPLx1LEDVIKP", "https://media.tenor.com/QDAH4iPpfqQAAAAd/troll-monkeytroii.gif"]));
                 $manager->persist($article);
 

@@ -76,6 +76,6 @@ class AvisController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_avis_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('blog-full-width', [], Response::HTTP_SEE_OTHER);
     }
 }

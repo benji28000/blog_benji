@@ -74,7 +74,9 @@ Faire :  <pre><code>cd blog_benji</code></pre>
 ### Maintenant installer les composers :
 commandes :
 <pre><code>composer install</code></pre>
-### ensuite on ajoute le smigrations à la BDD :
+### Maintenant on va créer la BDD:
+<pre><code>php bin/console doctrine:database:create</code></pre>
+### ensuite on ajoute les migrations à la BDD:
 
 <pre><code>php bin/console make:migration</code></pre>
 

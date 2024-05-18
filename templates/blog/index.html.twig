@@ -2,155 +2,144 @@
 
 {% block main %}
 <!-- Slider Start -->
-<section class="slider">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="block">
-					<h1 class="animated fadeInUp">Le blog de Benjamin Perez <br>  </h1>
-					<p class="animated fadeInUp">Sur ce blog vous pourrez voire toutes les actualités en rapport avec le developpement lié aux tâches de Benjamin Perez</p>
-					<a href="{{ path("blog-full-width") }}" class="btn btn-main animated fadeInUp" >Mes articles</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+    <section class="slider">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block">
+                        <h1 class="animated fadeInUp">Le blog de Benjamin Perez <br>  </h1>
+                        <p class="animated fadeInUp">Je vais ici vous présenter l'évolution des IA dans différents domaines (image, texte generation, video, vocal, etc...)</p>
+                        <a href="{{ path("blog-full-width") }}" class="btn btn-main animated fadeInUp" >Mes articles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- Wrapper Start -->
-<section class="about section">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-7">
-				<div class="block">
-					<div class="section-title">
-						<h2>About Us</h2>
-						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the
-							blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
-					</div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-						dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-						ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-						nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-						anim id </p>
-				</div>
-			</div><!-- .col-md-7 close -->
-			<div class="col-md-5">
-				<div class="block">
-					<img src="{{ asset("assets/images/wrapper-img.png") }}" alt="Img">
-				</div>
-			</div><!-- .col-md-5 close -->
-		</div>
-	</div>
-</section>
+    <!-- Wrapper Start -->
+    <section class="about section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="block">
+                        <div class="section-title">
+                            <h2>À propos de moi</h2>
+                            <p>Je suis actuellement en deuxième année de BTS SIO au Lycée Fulbert de Chartres et je vais rentrer en école d'ingénieur au CESI d'Orléans en cursus ingénieur informatique. Mon objectif est de devenir développeur fullstack en premier temps et ensuite évoluer vers des postes à plus haute responsabilité comme chef de projet.</p>
+                        </div>
+                        <p>Passionné par le développement informatique, je m'efforce constamment d'améliorer mes compétences et d'apprendre de nouvelles technologies. Je suis particulièrement intéressé par le développement web en backend et frontend, et je suis toujours à la recherche de nouveaux défis pour développer des solutions innovantes.</p>
+                    </div>
+                </div><!-- .col-md-7 close -->
+                <div class="col-md-5">
+                    <div class="block">
+                        <img src="{{ asset("assets/images/wrapper-img.png") }}" alt="Img">
+                    </div>
+                </div><!-- .col-md-5 close -->
+            </div>
+        </div>
+    </section>
 
-<section class="feature bg-2">
-  <div class="container">
-    <div class="row justify-content-end">
-      <div class="col-md-6">
-        <h2 class="section-subtitle">WE BELIEVE IN GREAT IDEAS</h2>
-        <p>Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce
-          dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-        </p>
-        <p>Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce
-          dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-        </p>
-        <p>Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce
-          dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-        </p>
-        <a href="portfolio.html.twig" class="btn btn-view-works">View Works</a>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- Service Start -->
+    <section class="service">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="section-title">
+                        <h2>Frameworks et langages</h2>
+                        <p>Voici les différents langages et frameworks que je maîtrise :</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>Java</h4>
+                        <p>Expérience en développement d'applications backend robustes avec Java.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>HTML</h4>
+                        <p>Maîtrise de la création de structures de pages web avec HTML.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>CSS</h4>
+                        <p>Stylisation de sites web pour un rendu visuel attrayant.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>JavaScript</h4>
+                        <p>Développement d'interfaces utilisateur interactives avec JavaScript.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>React</h4>
+                        <p>Création d'applications web dynamiques et réactives avec React.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>Symfony</h4>
+                        <p>Développement de solutions web évolutives avec le framework Symfony.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>JavaFX</h4>
+                        <p>Développement d'applications de bureau graphiques avec JavaFX.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>JSON</h4>
+                        <p>Manipulation et échange de données avec JSON.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>API</h4>
+                        <p>Conception et consommation d'API pour des applications interconnectées.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>Angular</h4>
+                        <p>Développement d'applications web riches avec Angular.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>Python</h4>
+                        <p>Création de scripts et d'applications diverses avec Python.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="ion-code"></i>
+                        <h4>C#</h4>
+                        <p>Développement de logiciels avec le langage C#.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- Service Start -->
-<section class="service">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 text-center">
-        <div class="section-title">
-          <h2>Our Services</h2>
-          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, <br> there live the
-            blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="service-item">
-          <i class="icon ion-coffee"></i>
-          <h4>Branding</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="service-item">
-          <i class="ion-compass"></i>
-          <h4>Web Design</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="service-item">
-          <i class="ion-image"></i>
-          <h4>App Design</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="service-item">
-          <i class="ion-bug"></i>
-          <h4>Start Up</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="service-item">
-          <i class="ion-headphone"></i>
-          <h4>Logo Design</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="service-item">
-          <i class="ion-leaf"></i>
-          <h4>Development</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="service-item">
-          <i class="ion-planet"></i>
-          <h4>Brand Identity</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="service-item">
-          <i class="ion-earth"></i>
-          <h4>Brand Identity</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Call to action Start -->
 
-<section class="call-to-action bg-1 section-sm overly">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="block">
-					<h2 class="mb-3">We design delightful digital experiences.</h2>
-					<p>Read more about what we do and our philosophy of design. Judge for yourself The work and results <br> we’ve
-						achieved for other clients, and meet our highly experienced Team who just love to design.</p>
-					<a class="btn btn-main btn-solid-border" href="contact.html.twig">Tell Us Your Story</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+
 
 <!-- Content Start -->
 <section class="testimonial">
@@ -158,66 +147,41 @@
     <div class="row">
       <div class="col-12">
         <div class="section-title text-center">
-          <h2>Fun Facts About Us</h2>
-          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, <br> there live the
-            blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+          <h2>Récents articles</h2>
+          <p>Vous trouverez ici mes récents articles sur l'IA</p>
         </div>
       </div>
     </div>
-    <div class="row align-items-center">
-      <div class="col-md-6">
-        <div class="block">
-          <ul class="counter-box clearfix">
-            <li>
-              <div class="counter-item">
-                <i class="ion-ios-chatboxes-outline"></i>
-                <h4 class="count" data-count="99">0</h4>
-                <span>Cups Of Coffee</span>
+      <div class="container">
+          <div class="row align-items-center justify-content-center">
+              <!-- Articles Written -->
+                  <div class="block text-center">
+                      <ul class="counter-box clearfix">
+                          <li>
+                              <div class="counter-item">
+                                  <i class="ion-ios-glasses-outline"></i>
+                                  {{ render(controller('App\\Controller\\ArticleController::numberofarticles')) }}
+                                  <span>Articles Written</span>
+                              </div>
+                          </li>
+                      </ul>
               </div>
-            </li>
-            <li>
-              <div class="counter-item">
-                <i class="ion-ios-glasses-outline"></i>
-                  {{ render (controller(
-                      'App\\Controller\\ArticleController::numberofarticles',
 
-
-
-                  )) }}
-                <span>Article Written</span>
+              <!-- Testimonial Carousel -->
+              <div class="col-12 col-md-10 col-lg-8">
+                  <div class="testimonial-carousel text-center">
+                      <div class="testimonial-slider owl-carousel" style="max-height: 500px; overflow-y: auto;">
+                          {{ render(controller(
+                              'App\\Controller\\ArticleController::get_articles',
+                              { 'limit': 3 },
+                              { 'order': 'DESC'}
+                          )) }}
+                      </div>
+                  </div>
               </div>
-            </li>
-            <li>
-              <div class="counter-item">
-                <i class="ion-ios-compose-outline"></i>
-                <h4 class="count" data-count="125">0</h4>
-                <span>Projects Completed</span>
-              </div>
-            </li>
-            <li>
-              <div class="counter-item">
-                <i class="ion-ios-timer-outline"></i>
-                <h4 class="count" data-count="200">0</h4>
-                <span>Combined Projects</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-5 col-md-offset-1">
-        <div class="testimonial-carousel text-center">
-          <div class="testimonial-slider owl-carousel">
-              {{ render(controller(
-                  'App\\Controller\\ArticleController::get_articles',
-                  { 'limit': 3 },
-                  { 'order': 'DESC'}
-
-
-              )) }}
           </div>
-        </div>
       </div>
-    </div>
+
   </div>
 </section>
 

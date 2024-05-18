@@ -34,6 +34,8 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $decodedTitle = html_entity_decode($article->getTitre(), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $article->setTitre($decodedTitle);
             // Générer le slug à partir du titre
             $slugger = new Slugger();
             $slug = $slugger->slugify($article->getTitre());
@@ -68,6 +70,16 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Décoder les entités HTML dans le titre
+            $decodedTitle = html_entity_decode($article->getTitre(), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $article->setTitre($decodedTitle);
+
+            // Générer le slug à partir du titre
+            $slugger = new Slugger();
+            $slug = $slugger->slugify($decodedTitle);
+            $article->setSlug($slug);
+
+            // Persister l'article avec le titre décodé et le slug
             $entityManager->flush();
 
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);

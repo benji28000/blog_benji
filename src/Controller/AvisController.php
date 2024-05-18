@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Avis;
+use App\Entity\Article;
 use App\Form\AvisType;
+use App\Repository\ArticleRepository;
 use App\Repository\AvisRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,24 +24,33 @@ class AvisController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_avis_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new', name: 'app_avis_new', methods: ['POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): Response
     {
         $avi = new Avis();
-        $form = $this->createForm(AvisType::class, $avi);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($avi);
-            $entityManager->flush();
+        // Récupérer les données du formulaire
+        $text = $request->request->get('text');
+        $rating = $request->request->get('rating');
+        $articleId = $request->request->get('article_id');
 
-            return $this->redirectToRoute('app_avis_index', [], Response::HTTP_SEE_OTHER);
+        // Récupérer l'article correspondant
+        $article = $articleRepository->find($articleId);
+
+        // Associer les données à l'avis
+        if ($article) {
+            $avi->setArticle($article);
         }
+        $avi->setContenu($text);
+        $avi->setNote((int)$rating);
 
-        return $this->render('avis/new.html.twig', [
-            'avi' => $avi,
-            'form' => $form,
-        ]);
+        // Associer l'avis à l'utilisateur connecté
+        $avi->setUtilisateur($this->getUser());
+
+        $entityManager->persist($avi);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('blog_single', ['slug' => $article->getSlug()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'app_avis_show', methods: ['GET'])]
@@ -71,7 +82,7 @@ class AvisController extends AbstractController
     #[Route('/{id}', name: 'app_avis_delete', methods: ['POST'])]
     public function delete(Request $request, Avis $avi, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$avi->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $avi->getId(), $request->request->get('_token'))) {
             $entityManager->remove($avi);
             $entityManager->flush();
         }

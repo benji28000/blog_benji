@@ -1,127 +1,100 @@
 {% extends "./blog/base_blog.html.twig" %}
 
 {% block main %}
-<section class="page-title bg-2">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="block">
-          <h1>Blog Full Width</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, ex!</p>
+  <section class="page-title bg-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block">
+            <h1>Le blog de Benjamin Perez</h1>
+            <p>Je vais ici vous présenter l'évolution des IA dans différents domaines (image, texte generation, video, vocal, etc...)</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-
-<div class="page-wrapper">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-10">
-
-</div>
+  <div class="page-wrapper">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
           {% for article in articles %}
-
-
-
-<div class="post">
-  <div class="post-media post-thumb">
-    <a href="blog-single.html.twig">
-      <img src="{{ article.getImageUrl() }}" alt="pomme" style="width: 400px;">
-    </a>
+            <div class="post">
+              <a href="{{ path('blog_single', {'slug': article.slug}) }}">{{ article.titre|raw }}</a>
+              <div class="post-media post-thumb">
+                <a href="{{ path('blog_single', {'slug': article.slug}) }}">
+                  <img src="{{ article.getImageUrl() }}" alt="pomme" style="width: 400px;">
+                </a>
+              </div>
+              <div class="post-meta d-flex justify-content-between align-items-center">
+                <ul class="list-inline mb-0">
+                  <li class="list-inline-item">
+                    <i class="ion-calendar"></i> {{ article.getDate().format("d, M Y")}}
+                  </li>
+                  <li class="list-inline-item">
+                    <i class="ion-android-people"></i> POSTED BY {{ article.getUtilisateur()|raw }}
+                  </li>
+                  <li class="list-inline-item">
+                    <i class="ion-pricetags"></i>{{ article.getMaCategorie() }}
+                  </li>
+                </ul>
+                <div>
+                  {% if is_granted("EDIT", article) %}
+                    <a href="/article/{{ article.getId() }}/edit" class="btn btn-secondary btn-sm">EDIT ARTICLE</a>
+                  {% endif %}
+                  {% if is_granted("DELETE", article) %}
+                    <form method="post" action="{{ path('app_article_delete', {'id': article.id}) }}" style="display:inline;">
+                      <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
+                      <button class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="post-content">
+                {% for avis in article.getLesAvis() %}
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <p>Avis de l'utilisateur : {{ avis.getUtilisateur() }} <br>
+                        {{ avis.getContenu() }}
+                      </p>
+                      <h6 style="color: #fd7e14">
+                        {% for i in 1..5 %}
+                          {% if i <= avis.getNote() %}
+                            ★
+                          {% else %}
+                            ☆
+                          {% endif %}
+                        {% endfor %}
+                      </h6>
+                    </div>
+                    {% if is_granted("DELETE", avis) %}
+                      <div class="btn-group" role="group">
+                        <a href="{{ path('app_avis_show', {'id': avis.id}) }}" class="btn btn-success btn-sm">show</a>
+                        <a href="{{ path('app_avis_edit', {'id': avis.id}) }}" class="btn btn-secondary btn-sm">edit</a>
+                        <form method="post" action="{{ path('app_avis_delete', {'id': avis.id}) }}" style="display:inline;">
+                          <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avis.id) }}">
+                          <button class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+                <a href="{{ path('blog_single', {'slug': article.getSlug()}) }}" class="btn btn-main">Lire l'article</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <a href="{{ path('app_article_new') }}">Create new article</a>
+      </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination post-pagination">
+          <li class="page-item"><a class="page-link" href="{{ path('blog-grid') }}">Prev</a></li>
+          <li class="page-item"><a class="page-link" href="{{ path('blog-grid') }}">1</a></li>
+          <li class="page-item"><a class="page-link" href="{{ path('blog-grid') }}">2</a></li>
+          <li class="page-item"><a class="page-link" href="{{ path('blog-grid') }}">3</a></li>
+          <li class="page-item"><a class="page-link" href="{{ path('blog-grid') }}">Next</a></li>
+        </ul>
+      </nav>
+    </div>
   </div>
-  <h3 class="post-title"><a href="{{ path("blog-single") }}">{{ article.titre|raw }}</a></h3>
-  <div class="post-meta">
-    <ul>
-      <li>
-        <i class="ion-calendar"></i> {{ article.getDate().format("d, M Y")}}
-      </li>
-      <li>
-        <i class="ion-android-people"></i> POSTED BY {{ article.getUtilisateur()|raw }}
-      </li>
-      <li>
-        <i class="ion-pricetags"></i>{{ article.getMaCategorie() }}
-      </li>
-
-    </ul>
-    {% if is_granted("EDIT",article) %}
-
-      <a href="/article/{{ article.getId() }}/edit"  class="btn btn-secondary">EDIT ARTICLE</a>
-    {% endif %}
-    {% if is_granted("DELETE",article) %}
-      <form method="post" action="{{ path('app_article_delete', {'id': article.id}) }}">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
-        <button class="btn btn-danger">Delete</button>
-      </form>
-    {% endif %}
-  </div>
-  <div class="post-content">
-
-    
-    {% for avis in article.getLesAvis() %}
-      {% if is_granted("DELETE",avis) %}
-        <td>
-          <a href="{{ path('app_avis_show', {'id': avis.id}) }}" class="btn btn-success">show</a>
-          <a href="{{ path('app_avis_edit', {'id': avis.id}) }}" class="btn btn-secondary">edit</a>
-          <form method="post" action="{{ path('app_avis_delete', {'id': avis.id}) }}">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avis.id) }}">
-            <button class="btn btn-danger">Delete</button>
-          </form>
-
-        </td>
-      {% endif %}
-
-
-      <br>
-      <p> Avis de l'utilisateur : {{ avis.getUtilisateur() }}  <br>
-
-        {{ avis.getContenu() }}
-
-<h6 style="color: #fd7e14">        {% for i in 1..5 %}
-          {% if i <= avis.getNote() %}
-            ★
-          {% else %}
-            ☆
-          {% endif %}
-
-
-        {% endfor %}
-    </h6>
-
-
-      </p>
-    {% endfor %}
-
-
-    <a href="{{ path("blog_single", {
-      'slug': article.getSlug()
-    }) }}" class="btn btn-main">Continue Reading</a>
-
-
-
-
-
-
-
-  </div>
-  {% endfor %}
-</div>
-          <a href="{{ path('app_article_new') }}">Create new article</a>
-
-
-<nav aria-label="Page navigation example">
-  <ul class="pagination post-pagination">
-    <li class="page-item"><a class="page-link" href="{{ path("blog-grid") }}">Prev</a></li>
-    <li class="page-item"><a class="page-link" href="{{ path("blog-grid") }}">1</a>
-    <li class="page-item"><a class="page-link" href="{{ path("blog-grid") }}">2</a></li>
-    <li class="page-item"><a class="page-link" href="{{ path("blog-grid") }}">3</a></li>
-    <li class="page-item"><a class="page-link" href="{{ path("blog-grid") }}">Next</a></li>
-  </ul>
-</nav>
-			</div>
-		</div>
-	</div>
-</div>
 {% endblock %}
-

@@ -20,8 +20,8 @@
         {% for article in articles %}
             <tr>
                 <td>{{ article.id }}</td>
-                <td>{{ article.titre }}</td>
-                <td>{{ article.contenu }}</td>
+                <td>{{ article.titre|raw }}</td>
+                <td>{{ article.contenu|raw }}</td>
                 <td>{{ article.date ? article.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ article.imageUrl }}</td>
 

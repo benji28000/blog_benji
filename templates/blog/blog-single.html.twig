@@ -47,81 +47,76 @@
 						<h3 class="post-sub-heading">{{ article.getLesAvis|length }} Comments</h3>
 						<ul class="media-list comments-list m-bot-50 clearlist">
 							{% for avis in article.getLesAvis() %}
-								{% if is_granted("DELETE",avis) %}
-									<td>
-										<a href="{{ path('app_avis_show', {'id': avis.id}) }}" class="btn btn-success">show</a>
-										<a href="{{ path('app_avis_edit', {'id': avis.id}) }}" class="btn btn-secondary">edit</a>
-										<form method="post" action="{{ path('app_avis_delete', {'id': avis.id}) }}">
-											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avis.id) }}">
-											<button class="btn btn-danger">Delete</button>
-										</form>
-
-									</td>
-								{% endif %}
 								<li class="media">
 									<a class="pull-left" href="#!">
-										<h6 style="color: #fd7e14">        {% for i in 1..5 %}
+										<h6 style="color: #fd7e14">
+											{% for i in 1..5 %}
 												{% if i <= avis.getNote() %}
 													★
 												{% else %}
 													☆
 												{% endif %}
 											{% endfor %}
-
 										</h6>
 									</a>
 									<div class="media-body">
-										<div class="comment-info">
-											<h4 class="comment-author">
-												<a href="#!">{{ avis.getUtilisateur() }}</a>
-											</h4>
-
-
+										<div class="d-flex justify-content-between">
+											<div>
+												<div class="comment-info">
+													<h4 class="comment-author">
+														<a href="#!">{{ avis.getUtilisateur() }}</a>
+													</h4>
+												</div>
+												<p>{{ avis.getContenu() }}</p>
+											</div>
+											{% if is_granted("DELETE", avis) %}
+												<div>
+													<a href="{{ path('app_avis_show', {'id': avis.id}) }}" class="btn btn-success btn-sm">show</a>
+													<a href="{{ path('app_avis_edit', {'id': avis.id}) }}" class="btn btn-secondary btn-sm">edit</a>
+													<form method="post" action="{{ path('app_avis_delete', {'id': avis.id}) }}" style="display:inline;">
+														<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avis.id) }}">
+														<button class="btn btn-danger btn-sm">Delete</button>
+													</form>
+												</div>
+											{% endif %}
 										</div>
-										<p>
-											{{ avis.getContenu() }}
-										</p>
-
 									</div>
 								</li>
-
 							{% endfor %}
-
-
-
-
 						</ul>
 					</div>
+
+
 					<div class="post-comments-form">
-						<h3 class="post-sub-heading">Leave You Comments</h3>
-						<form method="post" action="#!" id="form" role="form">
+						<h3 class="post-sub-heading">Leave Your Comment</h3>
+						<form method="post" action="{{ path('app_avis_new') }}" id="form" role="form">
 							<div class="row">
+								<!-- Rating -->
 								<div class="col-md-6 form-group">
-									<!-- Name -->
-									<input type="text" name="name" id="name" class=" form-control" placeholder="Name *" maxlength="100" required="">
-								</div>
-								<div class="col-md-6 form-group">
-									<!-- Email -->
-									<input type="email" name="email" id="email" class=" form-control" placeholder="Email *" maxlength="100"
-									 required="">
-								</div>
-								<div class="form-group col-md-12">
-									<!-- Website -->
-									<input type="text" name="website" id="website" class=" form-control" placeholder="Website" maxlength="100">
+									<label for="rating">Rating *</label>
+									<select name="rating" id="rating" class="form-control" required>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+									</select>
 								</div>
 								<!-- Comment -->
 								<div class="form-group col-md-12">
-									<textarea name="text" id="text" class=" form-control" rows="6" placeholder="Comment" maxlength="400"></textarea>
+									<textarea name="text" id="text" class="form-control" rows="6" placeholder="Comment" maxlength="400" required></textarea>
 								</div>
+								<!-- Article ID -->
+								<input type="hidden" name="article_id" value="{{ article.getId() }}">
 								<!-- Send Button -->
 								<div class="form-group col-md-12">
-									<button type="submit" class="btn btn-main ">
-										Send comment
-									</button>
+									<button type="submit" class="btn btn-main">Send comment</button>
 								</div>
 							</div>
 						</form>
 					</div>
+
+
 				</div>
 			</div>
 		</div>

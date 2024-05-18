@@ -72,11 +72,7 @@ class BlogController extends AbstractController
     {
         return $this->render('blog/blog-right-sidebar.html.twig');
     }
-    #[Route('/blog-single', name: 'blog-single')]
-    public function blog_single(): Response
-    {
-        return $this->render('blog/blog-single.html.twig');
-    }
+
     #[Route('/coming-soon', name: 'coming-soon')]
     public function coming_soon(): Response
     {
@@ -114,34 +110,32 @@ class BlogController extends AbstractController
     }
 
 
-    #[Route("/search", name: "search")]
 
+
+    #[Route("/search", name: "search")]
     public function search_article(Request $request, CategorieRepository $categorieRepository, ArticleRepository $articleRepository): Response
     {
         $searchTerm = $request->request->get('search');
 
 
+        $articles = $articleRepository->searchByTitle($searchTerm);
 
-
-        $result=strtolower($searchTerm);
-        $category = $categorieRepository->findOneBy(["slug" => $result]);
-
+        $category = $categorieRepository->findOneBy(['slug' => strtolower($searchTerm)]);
 
         if ($category) {
-            $articles = $category->getArticles();
-        } else {
-
-
-            $articles = $articleRepository->findBy(['titre' => $searchTerm]);
-
+            $categoryArticles = $category->getArticles();
+            foreach ($categoryArticles as $categoryArticle) {
+                if (!in_array($categoryArticle, $articles)) {
+                    $articles[] = $categoryArticle;
+                }
+            }
         }
-
-
 
         return $this->render('blog/blog-full-width.html.twig', [
             'categories' => $categorieRepository->findAll(),
             'articles' => $articles,
         ]);
     }
+
 
 }

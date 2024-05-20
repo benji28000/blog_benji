@@ -86,35 +86,37 @@
 						</ul>
 					</div>
 
+					{% if app.user %}
 
-					<div class="post-comments-form">
-						<h3 class="post-sub-heading">Leave Your Comment</h3>
-						<form method="post" action="{{ path('app_avis_new') }}" id="form" role="form">
-							<div class="row">
-								<!-- Rating -->
-								<div class="col-md-6 form-group">
-									<label for="rating">Rating *</label>
-									<select name="rating" id="rating" class="form-control" required>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-									</select>
+						<div class="post-comments-form">
+							<h3 class="post-sub-heading">Leave Your Comment</h3>
+							<form method="post" action="{{ path('app_avis_new') }}" id="form" role="form">
+								<div class="row">
+									<!-- Rating -->
+									<div class="col-md-6 form-group">
+										<label for="rating">Rating *</label>
+										<select name="rating" id="rating" class="form-control" required>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+										</select>
+									</div>
+									<!-- Comment -->
+									<div class="form-group col-md-12">
+										<textarea name="text" id="text" class="form-control" rows="6" placeholder="Comment" maxlength="400" required></textarea>
+									</div>
+									<!-- Article ID -->
+									<input type="hidden" name="article_id" value="{{ article.getId() }}">
+									<!-- Send Button -->
+									<div class="form-group col-md-12">
+										<button type="submit" class="btn btn-main">Send comment</button>
+									</div>
 								</div>
-								<!-- Comment -->
-								<div class="form-group col-md-12">
-									<textarea name="text" id="text" class="form-control" rows="6" placeholder="Comment" maxlength="400" required></textarea>
-								</div>
-								<!-- Article ID -->
-								<input type="hidden" name="article_id" value="{{ article.getId() }}">
-								<!-- Send Button -->
-								<div class="form-group col-md-12">
-									<button type="submit" class="btn btn-main">Send comment</button>
-								</div>
-							</div>
-						</form>
-					</div>
+							</form>
+						</div>
+					{% endif %}
 
 
 				</div>
